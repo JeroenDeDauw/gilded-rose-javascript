@@ -1,7 +1,7 @@
 function Item(name, sell_in, quality) {
-  this.name = name;
-  this.sell_in = sell_in;
-  this.quality = quality;
+    this.name = name;
+    this.sell_in = sell_in;
+    this.quality = quality;
 }
 
 var items = []
@@ -13,50 +13,82 @@ items.push(new Item('Sulfuras, Hand of Ragnaros', 0, 80));
 items.push(new Item('Backstage passes to a TAFKAL80ETC concert', 15, 20));
 items.push(new Item('Conjured Mana Cake', 3, 6));
 
+var MyItem = Item.prototype.constructor;
+
+MyItem.prototype.getName = function() {
+    return this.name;
+}
+
+MyItem.prototype.setName = function(name) {
+    this.name = name;
+}
+
+MyItem.prototype.getQuality = function() {
+    return this.quality;
+}
+
+MyItem.prototype.setQuality = function(quality) {
+    this.quality = quality;
+}
+
+MyItem.prototype.getSellin = function() {
+    return this.sell_in;
+}
+
+MyItem.prototype.setSellin = function(sell_in) {
+    this.sell_in = sell_in;
+}
+
+items.push(new MyItem('Conjured Mana Cake', 3, 6));
+
 function update_quality() {
-  for (var i = 0; i < items.length; i++) {
-    if (items[i].name != 'Aged Brie' && items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-      if (items[i].quality > 0) {
-        if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
-          items[i].quality = items[i].quality - 1
+    for (var i = 0; i < items.length; i++) {
+        update_quality_of_item(items[i]);
+    }
+}
+
+function update_quality_of_item(item) {
+    if (item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert') {
+        if (item.quality > 0) {
+            if (item.name != 'Sulfuras, Hand of Ragnaros') {
+                item.quality = item.quality - 1
+            }
         }
-      }
     } else {
-      if (items[i].quality < 50) {
-        items[i].quality = items[i].quality + 1
-        if (items[i].name == 'Backstage passes to a TAFKAL80ETC concert') {
-          if (items[i].sell_in < 11) {
-            if (items[i].quality < 50) {
-              items[i].quality = items[i].quality + 1
+        if (item.quality < 50) {
+            item.quality = item.quality + 1
+            if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
+                if (item.sell_in < 11) {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1
+                    }
+                }
+                if (item.sell_in < 6) {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1
+                    }
+                }
             }
-          }
-          if (items[i].sell_in < 6) {
-            if (items[i].quality < 50) {
-              items[i].quality = items[i].quality + 1
-            }
-          }
         }
-      }
     }
-    if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
-      items[i].sell_in = items[i].sell_in - 1;
+    if (item.name != 'Sulfuras, Hand of Ragnaros') {
+        item.sell_in = item.sell_in - 1;
     }
-    if (items[i].sell_in < 0) {
-      if (items[i].name != 'Aged Brie') {
-        if (items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-          if (items[i].quality > 0) {
-            if (items[i].name != 'Sulfuras, Hand of Ragnaros') {
-              items[i].quality = items[i].quality - 1
+    if (item.sell_in < 0) {
+        if (item.name != 'Aged Brie') {
+            if (item.name != 'Backstage passes to a TAFKAL80ETC concert') {
+                if (item.quality > 0) {
+                    if (item.name != 'Sulfuras, Hand of Ragnaros') {
+                        item.quality = item.quality - 1
+                    }
+                }
+            } else {
+                item.quality = item.quality - item.quality
             }
-          }
         } else {
-          items[i].quality = items[i].quality - items[i].quality
+            if (item.quality < 50) {
+                item.quality = item.quality + 1
+            }
         }
-      } else {
-        if (items[i].quality < 50) {
-          items[i].quality = items[i].quality + 1
-        }
-      }
     }
-  }
 }
