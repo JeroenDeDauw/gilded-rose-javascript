@@ -14,13 +14,28 @@ items.push(new Item('Backstage passes to a TAFKAL80ETC concert', 15, 20));
 items.push(new Item('Conjured Mana Cake', 3, 6));
 
 function update_quality() {
+  updateQualityItems(items);
+}
+
+function updateQualityItems(items) {
   for (var i = 0; i < items.length; i++) {
     if (items[i].name === 'Sulfuras, Hand of Ragnaros') {
       continue;
     }
+    // decreasing quality
+    // decreasing the sell_in (recalculating expiration date)
+    // decreasing quality when expired
+
+    // inside decreaseQuality, we're also increasingQuality for some items
+
+    // process 1 item
+    //  always decrease sell_in
+    //  decrease quality (based on its category)
+    //  increase quality (based on its category)
+
     if (items[i].name != 'Aged Brie' && items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
       if (items[i].quality > 0) {
-        items[i].quality = items[i].quality - 1
+        items[i].quality -= 1
       }
     } else {
       if (items[i].quality < 50) {
@@ -39,12 +54,14 @@ function update_quality() {
         }
       }
     }
-      items[i].sell_in = items[i].sell_in - 1;
+
+    items[i].sell_in = items[i].sell_in - 1;
+
     if (items[i].sell_in < 0) {
       if (items[i].name != 'Aged Brie') {
         if (items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
           if (items[i].quality > 0) {
-              items[i].quality = items[i].quality - 1
+            items[i].quality = items[i].quality - 1
           }
         } else {
           items[i].quality = items[i].quality - items[i].quality

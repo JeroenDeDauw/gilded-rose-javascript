@@ -10,8 +10,15 @@ describe("Gilded Rose", function() {
       expect(items[5]).toEqual(new Item('Conjured Mana Cake', 2, 5));
   });
 
-  it("should do something", function() {
-    update_quality();
-  });
+
+  describe("A Backstage pass", function () {
+      let backstagePass = new Item('Backstage passes to a TAFKAL80ETC concert', 5, 21);
+      it("should increase in quality by 3 when 5 days or less are left", function() {
+        backstagePass.sell_in = 5;
+          let items = [backstagePass];
+          update_quality([backstagePass]);
+          expect(backstagePass.quality).toEqual(22)
+      });
+  })
 
 });
